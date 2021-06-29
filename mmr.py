@@ -1,4 +1,3 @@
-from pprint import pprint
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -48,11 +47,11 @@ def plot_histogram(data):
     plt.title("MMR distribution (1v1, all regions)")
     plt.xlabel("MMR")
     plt.ylabel("Player count")
-    plt.savefig('MMR hist.png')
+    plt.savefig('MMR_hist.png')
 
 
-# plot_histogram(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-#                data['CN']['1v1'])
+plot_histogram(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+               data['CN']['1v1'])
 
 
 def compare_regions():
@@ -72,10 +71,10 @@ def compare_regions():
     plt.xlabel("MMR")
     plt.title("MMR distribution (1v1)")
     plt.ylabel("Player count (density)")
-    plt.savefig('MMR dist - region compare.png')
+    plt.savefig('MMR_dist_region_compare.png')
 
 
-# compare_regions()
+compare_regions()
 
 
 def plot_curve(data):
@@ -115,11 +114,11 @@ def plot_curve(data):
     plt.title("MMR distribution (1v1, all regions)")
     plt.ylabel("MMR")
     plt.grid(alpha=0.2)
-    plt.savefig('MMR dist - 1v1.png')
+    plt.savefig('MMR_dist_1v1.png')
 
 
-# plot_curve(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-#            data['CN']['1v1'])
+plot_curve(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+           data['CN']['1v1'])
 
 
 def plot_mmrs():
@@ -144,9 +143,9 @@ def plot_mmrs():
 
     xchess, ychess = get_chess_data()
     chess_max_players = max(xchess)
-    xchess = [i*M/chess_max_players for i in xchess]
-    ychess = [i*2.2 for i in ychess]
-    plt.plot(xchess, ychess, label='Chess')
+    xchess = [i * M / chess_max_players for i in xchess]
+    ychess = [i * 2.2 for i in ychess]
+    plt.plot(xchess, ychess, label='Fast chess')
 
     # Change xticks to percents
     percents = []
@@ -161,10 +160,10 @@ def plot_mmrs():
     plt.ylabel("MMR")
     plt.legend()
     plt.grid(alpha=0.2)
-    plt.savefig('MMR dist - comparing modes.png')
+    plt.savefig('MMR_dist_comparing_modes.png')
 
 
-# plot_mmrs()
+plot_mmrs()
 
 
 def plot_winrate():
@@ -200,11 +199,10 @@ def plot_winrate():
 
         plt.plot(positions, winrates, label=mode)
 
-
     # Chess
     xchess, ychess = get_chess_data_smoothed()
     chess_max_players = max(xchess)
-    xchess = [i*M/chess_max_players for i in xchess]
+    xchess = [i * M / chess_max_players for i in xchess]
     winrates = []
     positions = []
     for idx, player in enumerate(ychess):
@@ -215,8 +213,7 @@ def plot_winrate():
         winrates.append(winrate)
         positions.append(M * idx / len(ychess))
 
-    plt.plot(positions, winrates, label='Chess')
-
+    plt.plot(positions, winrates, label='Fast chess')
 
     # Change xticks to percents
     percents = []

@@ -1,5 +1,3 @@
-from pprint import pprint
-import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline
 
 # https://www.chess.com/leaderboard/live/rapid
@@ -51,17 +49,12 @@ def get_chess_data():
     return x, y
 
 
-
 def get_chess_data_smoothed():
     x, y = get_chess_data()
 
     spl = make_interp_spline(x, y, k=3)
     M = sum(chess_data.values())
-    xnew = list(range(0,M, int(M/100000)))
+    xnew = list(range(0, M, int(M / 100000)))
     ynew = spl(xnew)
 
     return xnew, ynew
-
-    # # plt.scatter(x, y, label='O')
-    # plt.plot(xnew, ynew, label='N')
-    # plt.show()
