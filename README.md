@@ -28,4 +28,4 @@ Fast chess population spans essentially the same MMR range as 1v1 in StarCraf II
 
 An alternative visualization of the previous data but with winrates calculated based on the [difference in ELO](https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details). The winrate based on a MMR difference was calculated the same way as ELO, but with `MMR = 2.2*ELO` conversion.
 
-The chart shows the previous thrend even better. From the highst skill differences in player population to the lowest: Fast chess > 1v1 > 2v2 > 3v3 > 4v4 (noisy, not enough games).
+The chart shows the previous thrend even better. From the highest skill differences in player population to the lowest: Fast chess > 1v1 > 2v2 > 3v3 > 4v4 (noisy, not enough games).
