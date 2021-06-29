@@ -22,7 +22,7 @@ Comparing MMR distribution between different modes. Fast chess data taken from h
 
 Both a game, mode, and a population affects how this charts looks. For StarCraft II, we see that the biggest skill differences in 1v1, followed by 2v2, 3v3 and 4v4. As expected, in 1v1 a single player skill has the biggest impact on the game's outcome. With more players the impact gets progressively smaller, and in 4v4 it's the smallest.
 
-Fast chess population spans essentially the same MMR range as 1v1 in StarCraf II, however, the population is much more equally distributed between different MMR/ELO brackets. We don't see the same Bronze league that contains only a small number of players but with a major difference is in skill. That's likely because the (fast) chess population is bigger than what data obtained from the single site shows, and fast chess highlights even better then skill difference between players than 1v1 in StarCraft II.
+Fast chess population spans essentially the same MMR range as 1v1 in StarCraf II, however, the population is much more equally distributed between different MMR/ELO brackets. We don't see the same Bronze league that contains only a small number of players but with a major difference is in skill. That's likely because the (fast) chess population is bigger than what data obtained from the single site shows, and fast chess highlights the skill difference between players even better than 1v1 in StarCraft II.
 
 ![Screenshot](./Winrate.png) 
 
