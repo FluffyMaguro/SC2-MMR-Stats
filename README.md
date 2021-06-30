@@ -12,7 +12,7 @@ Silver, Gold and Platinum leagues are nicely tugged together but still spanning 
 
 ![Screenshot](./MMR_dist_region_compare.png)
 
-When comparing different regions, we can see that KR is more shifted towards higher MMRs. That's likely because of a lot more professional players and fewer total players. MMR will shift toward higher ranges to accommodate a different player distribution.
+After quickly comparing different regions, we can see that KR is more shifted towards higher MMRs. That's likely because of a lot more professional players and fewer total players. MMR will shift toward higher ranges to accommodate a different player distribution.
 
 ![Screenshot](./MMR_dist_1v1.png)
 
@@ -32,13 +32,15 @@ Fast chess population spans essentially the same MMR range as 1v1 in StarCraf II
 |2v2 | 1154 – 5301 |
 |3v3 | 1571 – 4809 |
 |4v4 | 1872 – 4494 |
-| Fast chess | – 7260 |
+| Fast chess | 220 – 7260 |
 
 
 I'm guessing team games in StarCraft II are missing data from low MMR replays, 1v1 mode does have those.
 
 ![Screenshot](./Winrate.png) 
 
-An alternative visualization of the previous data but with winrates calculated based on the [difference in ELO](https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details). The winrate based on an MMR difference was calculated the same way as ELO, but with `ΔELO = ΔMMR/2.2` conversion.
+An alternative visualization of the previous data but with winrates calculated based on the [difference in ELO](https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details). The winrate based on an MMR difference was calculated the same way as ELO, but with `ΔELO = ΔMMR/2.2` conversion. 260 MMR difference results in 66% winrate, 420 difference in 75%, and 1120 difference in 95%.
 
-This chart shows the previous trend even better. From the highest skill differences in player population to the lowest: Fast chess > 1v1 > 2v2 > 3v3 > 4v4.
+This chart shows the previous trend even better. From the highest skill differences in player population to the lowest: Fast chess > 1v1 > 2v2 > 3v3 > 4v4. 
+
+I added how a fully random and fully determined game would look like. A fully random game might be a game of *rock-paper-scissors* (if played well), and a fully determined game could be comparing persons heights (assuming a single precise measurement). Normal games fall somewhere in-between due to [various sources of randomness](https://www.maguro.one/2021/06/TR09-gameplay-variety.html#sources) (execution, built-in, etc.) (pushes down) and player's skill (pushes up). The higher the game is in this chart, the most accurately it tells a player skill and/or there is a wider skill difference in its population – since we are comparing against players x% lower in population. Using a fixed value (e.g. 1000 players down) would have a similar dependency on the population.

@@ -217,20 +217,25 @@ def plot_winrate():
 
     plt.plot(positions, winrates, label='Fast chess')
 
+    plt.plot([M*offset_percent,M],[1,1], label='Fully determined game', linestyle='dashed')
+    plt.plot([M*offset_percent,M],[0.5,0.5], label='Fully random game', linestyle='dashed')
+
     # Change xticks to percents
     percents = []
     percents_loc = []
-    for percent in range(0, 101, 10):
+    for percent in range(int(offset_percent*100), 101, 10):
         percents.append(f"{percent}%")
         percents_loc.append(int(M * percent / 100))
 
     plt.xticks(percents_loc, percents)
+    plt.yticks([i/10 for i in range(5,11)],[f"{i*10}%" for i in range(5,11)])
+    
     plt.title(
         f"Winrate against someone {offset_percent:.0%} lower in population")
     plt.xlabel("Players")
     plt.ylabel(f"Winrate")
     plt.grid(alpha=0.2)
-    plt.legend(loc='upper center')
+    plt.legend(fontsize=8)
     plt.savefig("Winrate.png")
 
 
