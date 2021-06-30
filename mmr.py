@@ -47,6 +47,7 @@ def plot_histogram(data):
     plt.title("MMR distribution (1v1, all regions)")
     plt.xlabel("MMR")
     plt.ylabel("Player count")
+    plt.grid(alpha=0.2)
     plt.savefig('MMR_hist.png')
 
 
@@ -71,6 +72,7 @@ def compare_regions():
     plt.xlabel("MMR")
     plt.title("MMR distribution (1v1)")
     plt.ylabel("Player count (density)")
+    plt.grid(alpha=0.2)
     plt.savefig('MMR_dist_region_compare.png')
 
 
