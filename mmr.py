@@ -51,8 +51,8 @@ def plot_histogram(data):
     plt.savefig('MMR_hist.png')
 
 
-plot_histogram(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-               data['CN']['1v1'])
+# plot_histogram(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+#                data['CN']['1v1'])
 
 
 def compare_regions():
@@ -76,7 +76,7 @@ def compare_regions():
     plt.savefig('MMR_dist_region_compare.png')
 
 
-compare_regions()
+# compare_regions()
 
 
 def plot_curve(data):
@@ -119,8 +119,8 @@ def plot_curve(data):
     plt.savefig('MMR_dist_1v1.png')
 
 
-plot_curve(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-           data['CN']['1v1'])
+# plot_curve(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+#            data['CN']['1v1'])
 
 
 def plot_mmrs():
@@ -165,7 +165,7 @@ def plot_mmrs():
     plt.savefig('MMR_dist_comparing_modes.png')
 
 
-plot_mmrs()
+# plot_mmrs()
 
 
 def plot_winrate():
@@ -186,9 +186,15 @@ def plot_winrate():
 
     M = max((len(ndata[key]) for key in ndata))
     offset_percent = 0.2
+    arranged = True
 
     # Plot modes
     for mode, ldata in ndata.items():
+        if arranged and 'arranged' not in mode and '1v1' not in mode:
+            continue
+        if not arranged and 'arranged' in mode:
+            continue
+
         winrates = []
         positions = []
         for idx, player in enumerate(ldata):
@@ -241,7 +247,7 @@ def plot_winrate():
     plt.ylabel(f"Winrate")
     plt.grid(alpha=0.2)
     plt.legend(fontsize=8)
-    plt.savefig("Winrate.png")
+    plt.savefig(f"Winrate{offset_percent*100:.0f}{'A' if arranged else ''}.png")
 
 
 plot_winrate()
