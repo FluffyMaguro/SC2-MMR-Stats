@@ -32,10 +32,11 @@ Fast chess population spans essentially the same MMR range as 1v1 in StarCraf II
 |2v2 | 1154 – 5301 |
 |3v3 | 1571 – 4809 |
 |4v4 | 1872 – 4494 |
-| Fast chess | 220 – 7260 |
+|2v2 arranged | 1028 – 5659 |
+|3v3 arranged | 102 – 7042 |
+|4v4 arranged | 270 – 7185 |
+|Fast chess | 220 – 7260 |
 
-
-I'm guessing team games in StarCraft II are missing data from low MMR replays, 1v1 mode does have those.
 
 ![Screenshot](./Winrate20.png) 
 
