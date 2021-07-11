@@ -167,6 +167,57 @@ def plot_mmrs():
 
 # plot_mmrs()
 
+def plot_mmr_diff():
+    plt.figure().clear()
+
+    ndata = dict()
+    for region in data:
+        for mode in data[region]:
+            if mode == 'Archon' or ('arranged' in mode and mode != '1v1'):
+                continue
+            if mode in ndata:
+                ndata[mode] += data[region][mode]
+            else:
+                ndata[mode] = data[region][mode].copy()
+
+    M = max((len(ndata[key]) for key in ndata))
+
+    diff = 100
+    for mode in ndata:
+        values = sorted(ndata[mode])
+        l = len(values)
+        values = [values[i]-values[i-int(l/diff)] for i in range(len(values)) if i-(l/diff) >= 0]
+        x = [i * M / len(values) for i in range(len(values))]
+        plt.plot(x, values, label=mode)
+
+    xchess, ychess = get_chess_data_smoothed()
+    ychess = [i * 2.2 for i in ychess]
+    chess_max_players = max(xchess)
+    xchess = [i * M / chess_max_players for i in xchess]
+    l = len(ychess)
+    ychess = [ychess[i]-ychess[i-int(l/diff)] for i in range(len(ychess)) if i-(l/diff) >= 0]
+    xchess = xchess[len(xchess)-len(ychess):]
+    plt.plot(xchess, ychess, label='Fast chess')
+
+    # Change xticks to percents
+    percents = []
+    percents_loc = []
+    for percentile in range(0, 101, 10):
+        percents.append(f"{percentile}%")
+        percents_loc.append(int(M * percentile / 100))
+    plt.xticks(percents_loc, percents)
+
+    plt.xlabel("Players")
+    plt.title("MMR difference against players 1% lower")
+    plt.ylabel("Δ MMR")
+    plt.ylim((0,200))
+    plt.legend()
+    plt.grid(alpha=0.2)
+    plt.savefig('MMR_difference.png')
+
+
+# plot_mmr_diff()
+
 
 def plot_winrate():
     plt.figure().clear()

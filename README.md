@@ -49,3 +49,9 @@ This chart shows the previous trend even better. From the highest skill differen
 Arranged teams are more closer to 1v1, particularly for the players in 85-100% part of the population. Elsewhere the difference is rather small.
 
 I added how a fully random and fully determined game would look like. A fully random game might be a game of *rock-paper-scissors* (if played well), and a fully determined game could be comparing persons heights (assuming a single precise measurement). Normal games fall somewhere in-between due to [various sources of randomness](https://www.maguro.one/2021/06/TR09-gameplay-variety.html#sources) (execution, built-in, etc.) (pushes down) and player's skill (pushes up). The higher the game is in this chart, the most accurately it tells a player skill and/or there is a wider skill difference in its population – since we are comparing against players x% lower in population. Using a fixed value (e.g. 1000 players down) would have a similar dependency on the population.
+
+![Screenshot](./MMR_difference.png)
+
+A similar story aries when just comparing MMR difference against 1% population lower as MMR difference is closely tied with winrates. You would get a very similar chart if you plotted winrate against players 1% lower. 
+
+We see the most difference in MMR/winrate is in the lowest and highest leagues.
