@@ -55,3 +55,7 @@ I added how a fully random and fully determined game would look like. A fully ra
 A similar story aries when just comparing MMR difference against 1% population lower as MMR difference is closely tied with winrates. You would get a very similar chart if you plotted winrate against players 1% lower. 
 
 We see the most difference in MMR/winrate is in the lowest and highest leagues.
+
+![Screenshot](./mmr_scaling.png)
+
+Another way to represent skill distribution across population that's comparable across games. The vertical lines represent where a player has expected 75% chance of winning against previous vertical line. The more lines there are, the wider skill is in the player population.

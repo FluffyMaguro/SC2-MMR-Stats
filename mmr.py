@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import math
 
 from chess import get_chess_data, get_chess_data_smoothed
 from load_data import load_data, regions
@@ -53,6 +54,38 @@ def plot_histogram(data):
 
 # plot_histogram(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
 #                data['CN']['1v1'])
+
+
+def plot_scaling(data):
+    plt.figure().clear()
+    data = sorted(data)
+    sns.histplot(data, element='poly')
+
+    M = plt.ylim()[1]
+    lines = 0
+    previous_mmr = None
+    for mmr in data:
+        if previous_mmr is None:
+            previous_mmr = mmr
+            continue
+
+        chance = cwinrate(mmr - previous_mmr)
+        if chance >= 0.75:
+            previous_mmr = mmr
+            plt.plot([mmr, mmr], [0, M], "k--", linewidth=0.5)
+            lines += 1
+
+    plt.xlabel("MMR")
+    plt.ylabel("Player Count")
+    plt.title(
+        "Player MMR distribution\n(lines show where players have 75% chance to win against previous line)"
+    )
+    plt.text(plt.xlim()[1] * 0.93, plt.ylim()[1] * 0.93, f"#{lines}")
+    plt.savefig("mmr_scaling.png")
+
+
+plot_scaling(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+             data['CN']['1v1'])
 
 
 def compare_regions():
@@ -167,6 +200,7 @@ def plot_mmrs():
 
 # plot_mmrs()
 
+
 def plot_mmr_diff():
     plt.figure().clear()
 
@@ -186,7 +220,10 @@ def plot_mmr_diff():
     for mode in ndata:
         values = sorted(ndata[mode])
         l = len(values)
-        values = [values[i]-values[i-int(l/diff)] for i in range(len(values)) if i-(l/diff) >= 0]
+        values = [
+            values[i] - values[i - int(l / diff)] for i in range(len(values))
+            if i - (l / diff) >= 0
+        ]
         x = [i * M / len(values) for i in range(len(values))]
         plt.plot(x, values, label=mode)
 
@@ -195,8 +232,11 @@ def plot_mmr_diff():
     chess_max_players = max(xchess)
     xchess = [i * M / chess_max_players for i in xchess]
     l = len(ychess)
-    ychess = [ychess[i]-ychess[i-int(l/diff)] for i in range(len(ychess)) if i-(l/diff) >= 0]
-    xchess = xchess[len(xchess)-len(ychess):]
+    ychess = [
+        ychess[i] - ychess[i - int(l / diff)] for i in range(len(ychess))
+        if i - (l / diff) >= 0
+    ]
+    xchess = xchess[len(xchess) - len(ychess):]
     plt.plot(xchess, ychess, label='Fast chess')
 
     # Change xticks to percents
@@ -210,7 +250,7 @@ def plot_mmr_diff():
     plt.xlabel("Players")
     plt.title("MMR difference against players 1% lower")
     plt.ylabel("Δ MMR")
-    plt.ylim((0,200))
+    plt.ylim((0, 200))
     plt.legend()
     plt.grid(alpha=0.2)
     plt.savefig('MMR_difference.png')
@@ -298,7 +338,8 @@ def plot_winrate():
     plt.ylabel(f"Winrate")
     plt.grid(alpha=0.2)
     plt.legend(fontsize=8)
-    plt.savefig(f"Winrate{offset_percent*100:.0f}{'A' if arranged else ''}.png")
+    plt.savefig(
+        f"Winrate{offset_percent*100:.0f}{'A' if arranged else ''}.png")
 
 
-plot_winrate()
+# plot_winrate()
