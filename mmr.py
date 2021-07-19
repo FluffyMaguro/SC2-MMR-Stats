@@ -78,7 +78,7 @@ def plot_scaling(data):
     plt.xlabel("MMR")
     plt.ylabel("Player Count")
     plt.title(
-        "Player MMR distribution\n(lines show where players have 75% chance to win against previous line)"
+        "Player MMR distribution in SC2\n(lines show where players have 75% chance to win against previous line)"
     )
     plt.text(plt.xlim()[1] * 0.93, plt.ylim()[1] * 0.93, f"#{lines}")
     plt.savefig("mmr_scaling.png")
