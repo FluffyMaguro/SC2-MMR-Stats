@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import math
 
-from chess import get_chess_data, get_chess_data_smoothed
+from chess import get_chess_data, get_chess_data_smoothed, chess_data
 from load_data import load_data, regions
 from winrate_calc import cwinrate
 
@@ -59,7 +59,7 @@ def plot_histogram(data):
 def plot_scaling(data):
     plt.figure().clear()
     data = sorted(data)
-    sns.histplot(data, element='poly')
+    sns.histplot(data, element='poly', label="SC2")
 
     M = plt.ylim()[1]
     lines = 0
@@ -81,6 +81,12 @@ def plot_scaling(data):
         "Player MMR distribution in SC2\n(lines show where players have 75% chance to win against previous line)"
     )
     plt.text(plt.xlim()[1] * 0.93, plt.ylim()[1] * 0.93, f"#{lines}")
+
+    # chess
+    cx, cy = np.array(list(chess_data.keys())),  np.array(list(chess_data.values()))
+    plt.plot(cx*2.2, cy/250, label="Chess", color='r')
+    plt.legend()
+
     plt.savefig("mmr_scaling.png")
 
 
