@@ -78,15 +78,15 @@ def plot_scaling(data):
     plt.xlabel("MMR")
     plt.ylabel("Player Count")
     plt.title(
-        "Player MMR distribution in SC2\n(lines show where players have 75% chance to win against previous line)"
+        "Player MMR distribution in SC2\n(vertical lines show 75% chance to win against the previous line)"
     )
     plt.text(plt.xlim()[1] * 0.93, plt.ylim()[1] * 0.93, f"#{lines}")
 
     # chess
-    cx, cy = np.array(list(chess_data.keys())),  np.array(list(chess_data.values()))
-    plt.plot(cx*2.2, cy/250, label="Chess", color='r')
+    cx, cy = np.array(list(chess_data.keys())), np.array(
+        list(chess_data.values()))
+    plt.plot(cx * 2.2 + 1000, cy / 250, label="Chess", color='r')
     plt.legend()
-
     plt.savefig("mmr_scaling.png")
 
 
