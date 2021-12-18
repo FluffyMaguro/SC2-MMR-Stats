@@ -1,13 +1,21 @@
+import pickle
+
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import math
 
-from chess import get_chess_data, get_chess_data_smoothed, chess_data
+from chess import chess_data, get_chess_data, get_chess_data_smoothed
 from load_data import load_data, regions
 from winrate_calc import cwinrate
 
 data = load_data()
+with open('aoe4_player_data.pckl', 'rb') as f:
+    aoe_data = pickle.load(f)
+aoe_data = {
+    k: v
+    for k, v in sorted(aoe_data.items(), key=lambda x: x[1]["elo"])
+}
+
 plt.rcParams['figure.dpi'] = 150
 
 league_target = {
@@ -168,7 +176,7 @@ def plot_mmrs():
     ndata = dict()
     for region in data:
         for mode in data[region]:
-            if mode == 'Archon':
+            if mode == 'Archon' or 'arranged' in mode:
                 continue
             if mode in ndata:
                 ndata[mode] += data[region][mode]
@@ -182,11 +190,17 @@ def plot_mmrs():
         x = [i * M / len(values) for i in range(len(values))]
         plt.plot(x, values, label=mode)
 
+    #Aoe4
+    elos = [p['elo'] * 2.2 for p in aoe_data.values()]
+    pct = [i * M / len(aoe_data) for i in range(len(aoe_data))]
+    plt.plot(pct, elos, '--', label='AoE4 1v1')
+
+    # Chess
     xchess, ychess = get_chess_data()
     chess_max_players = max(xchess)
     xchess = [i * M / chess_max_players for i in xchess]
     ychess = [i * 2.2 for i in ychess]
-    plt.plot(xchess, ychess, label='Fast chess')
+    plt.plot(xchess, ychess, '-.', label='Fast chess')
 
     # Change xticks to percents
     percents = []
@@ -204,7 +218,7 @@ def plot_mmrs():
     plt.savefig('MMR_dist_comparing_modes.png')
 
 
-# plot_mmrs()
+plot_mmrs()
 
 
 def plot_mmr_diff():
