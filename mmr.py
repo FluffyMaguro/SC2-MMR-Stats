@@ -109,7 +109,7 @@ def plot_scaling(data):
     cx = np.array(list(chess_data.keys()))
     cy = np.array(list(chess_data.values()))
     cy = cy/np.sum(cy)/200
-    plt.plot(cx * 2.2 + 1000, cy, label="Chess", color='r')
+    plt.plot(cx * 2.2 + 1000, cy, label="Fast chess", color='r')
 
     plt.legend()
     plt.savefig("mmr_scaling.png")
