@@ -74,7 +74,7 @@ def plot_histogram(data):
 def plot_scaling(data):
     plt.figure().clear()
     data = sorted(data)
-    sns.histplot(data, element='poly', label="SC2")
+    sns.histplot(data, element='poly', label="SC2", stat='density')
 
     M = plt.ylim()[1]
     lines = 0
@@ -87,26 +87,36 @@ def plot_scaling(data):
         chance = cwinrate(mmr - previous_mmr)
         if chance >= 0.75:
             previous_mmr = mmr
-            plt.plot([mmr, mmr], [0, M], "k--", linewidth=0.5)
+            plt.plot([mmr, mmr], [0, 1.6 * M], "k--", linewidth=0.5)
             lines += 1
 
     plt.xlabel("MMR")
-    plt.ylabel("Player Count")
+    plt.ylabel("Player distribution")
     plt.title(
         "Player MMR distribution in SC2\n(vertical lines show 75% chance to win against the previous line)"
     )
     plt.text(plt.xlim()[1] * 0.93, plt.ylim()[1] * 0.93, f"#{lines}")
 
-    # chess
-    cx, cy = np.array(list(chess_data.keys())), np.array(
-        list(chess_data.values()))
-    plt.plot(cx * 2.2 + 1000, cy / 250, label="Chess", color='r')
+    # AoE4
+    elos = [p['elo'] * 2.2 for p in aoe_data.values()]
+    sns.histplot(data=elos,
+                 stat='density',
+                 element='poly',
+                 label="AoE4",
+                 color="green")
+
+    # Chess
+    cx = np.array(list(chess_data.keys()))
+    cy = np.array(list(chess_data.values()))
+    cy = cy/np.sum(cy)/200
+    plt.plot(cx * 2.2 + 1000, cy, label="Chess", color='r')
+
     plt.legend()
     plt.savefig("mmr_scaling.png")
 
 
-# plot_scaling(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-#              data['CN']['1v1'])
+plot_scaling(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+             data['CN']['1v1'])
 
 
 def compare_regions():
@@ -287,7 +297,7 @@ def plot_mmr_diff():
     fig.savefig('MMR_difference.png')
 
 
-plot_mmr_diff()
+# plot_mmr_diff()
 
 
 def plot_winrate():
