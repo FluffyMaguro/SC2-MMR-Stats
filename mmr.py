@@ -1,8 +1,11 @@
 import pickle
+from typing import List
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 import numpy as np
 import seaborn as sns
+from scipy.interpolate import make_interp_spline
 
 from chess import chess_data, get_chess_data, get_chess_data_smoothed
 from load_data import load_data, regions
@@ -27,6 +30,10 @@ league_target = {
     'Master': 0.033,
     'GM': 1
 }
+
+
+def moving_average(x, n: int = 3):
+    return np.convolve(x, np.ones(n), 'valid') / n
 
 
 def plot_histogram(data):
@@ -98,8 +105,8 @@ def plot_scaling(data):
     plt.savefig("mmr_scaling.png")
 
 
-plot_scaling(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
-             data['CN']['1v1'])
+# plot_scaling(data['NA']['1v1'] + data['EU']['1v1'] + data['KR']['1v1'] +
+#              data['CN']['1v1'])
 
 
 def compare_regions():
@@ -218,23 +225,22 @@ def plot_mmrs():
     plt.savefig('MMR_dist_comparing_modes.png')
 
 
-plot_mmrs()
+# plot_mmrs()
 
 
 def plot_mmr_diff():
     plt.figure().clear()
+    fig, ax = plt.subplots(1, 1, dpi=200)
 
     ndata = dict()
     for region in data:
         for mode in data[region]:
-            if mode == 'Archon' or ('arranged' in mode and mode != '1v1'):
+            if mode == 'Archon' or 'arranged' in mode:
                 continue
             if mode in ndata:
                 ndata[mode] += data[region][mode]
             else:
                 ndata[mode] = data[region][mode].copy()
-
-    M = max((len(ndata[key]) for key in ndata))
 
     diff = 100
     for mode in ndata:
@@ -244,39 +250,44 @@ def plot_mmr_diff():
             values[i] - values[i - int(l / diff)] for i in range(len(values))
             if i - (l / diff) >= 0
         ]
-        x = [i * M / len(values) for i in range(len(values))]
-        plt.plot(x, values, label=mode)
+        values = moving_average(np.array(values), n=int(l / 50))
+        x = [i / len(values) for i in range(len(values))]
+        ax.plot(x, values, label=mode)
 
+    # Aoe4
+    elos = [p['elo'] * 2.2 for p in aoe_data.values()]
+    l = len(elos)
+    elos = [
+        elos[i] - elos[i - int(l / diff)] for i in range(len(elos))
+        if i - (l / diff) >= 0
+    ]
+    elos = moving_average(np.array(elos), n=int(l / 100))
+    pct = [i / len(elos) for i in range(len(elos))]
+    plt.plot(pct, elos, '--', label='AoE4 1v1')
+
+    # Chess
     xchess, ychess = get_chess_data_smoothed()
     ychess = [i * 2.2 for i in ychess]
-    chess_max_players = max(xchess)
-    xchess = [i * M / chess_max_players for i in xchess]
     l = len(ychess)
     ychess = [
         ychess[i] - ychess[i - int(l / diff)] for i in range(len(ychess))
         if i - (l / diff) >= 0
     ]
-    xchess = xchess[len(xchess) - len(ychess):]
-    plt.plot(xchess, ychess, label='Fast chess')
+    xchess = [i / len(ychess) for i in range(len(ychess))]
+    ax.plot(xchess, ychess, '-.', label='Fast chess')
 
-    # Change xticks to percents
-    percents = []
-    percents_loc = []
-    for percentile in range(0, 101, 10):
-        percents.append(f"{percentile}%")
-        percents_loc.append(int(M * percentile / 100))
-    plt.xticks(percents_loc, percents)
-
-    plt.xlabel("Players")
-    plt.title("MMR difference against players 1% lower")
-    plt.ylabel("Δ MMR")
-    plt.ylim((0, 200))
-    plt.legend()
-    plt.grid(alpha=0.2)
-    plt.savefig('MMR_difference.png')
+    # Style
+    ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+    ax.set_xlabel("Players")
+    ax.set_title("MMR difference against players 1% lower")
+    ax.set_ylabel("Δ MMR")
+    ax.set_ylim(0, 150)
+    ax.legend()
+    ax.grid(alpha=0.2)
+    fig.savefig('MMR_difference.png')
 
 
-# plot_mmr_diff()
+plot_mmr_diff()
 
 
 def plot_winrate():
